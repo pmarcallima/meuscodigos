@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 
 //Faça uma classe Fila contendo um atributo do tipo ArrayList, os métodos inserir, remover e mostrar os elementos da sua fila.
-class Fila
+class Pilha
 {
     ArrayList arrayList;
-    public Fila()
+    public Pilha
     {
         arrayList = new ArrayList();
     }
@@ -20,17 +20,22 @@ class Fila
     public void Mostrar()
     {
         int tam = arrayList.Count;
-        for (int i = 0; i < tam; i++)
+        for (int i = tam < 0; i--) ;
         {
             Console.Write(arrayList[i]);
         }
     }
 }
-class ExercicioComplementarU02S01EC01
+class Exercicio02
 {
     public static void Main(string[] args)
     {
-        Fila a = new Fila();
+
+        Pilha a = new Pilha();
+        for (int i = 0; i < 10; i++)
+        {
+            a.Inserir(i);
+        }
         a.Inserir(4);
         a.Inserir(10);
         a.Mostrar();
