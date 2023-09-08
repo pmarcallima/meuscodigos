@@ -79,7 +79,7 @@ class MyIO {
    }
 }
 
-class LeituraHTML
+class Leitura
 {
    public static String getHtml(String endereco){
       URL url;
@@ -107,7 +107,6 @@ class LeituraHTML
       }    
       return resp;
    }
-//funcao que recebe como parametro um char e retorna um booleano true caso seja uma consoante
         static boolean consoante(char s)
 	{
 		if(s >= 97 && s<=122 && s!='a' && s != 'e' && s!= 'i' && s!= 'o' && s!= 'u')
@@ -116,7 +115,6 @@ class LeituraHTML
 			return false;
 
 	}
-//funcao para imprimir o contador que recebe como parametro um char da letra e um inteiro de seu contador	
 	static void imprimir(char letra, int i)
 	{
 		System.out.print(letra);
@@ -124,7 +122,6 @@ class LeituraHTML
 		MyIO.print(i);
 		MyIO.print(") ");
 	}
-//funcao para imprimir o contador que recebe como parametro uma string da palavra e um inteiro de seu contador
 	static void imprimir(String f, int i)
 	{
 		MyIO.print(f);
@@ -132,12 +129,8 @@ class LeituraHTML
 		MyIO.print(i);
 		MyIO.print(") ");
 	}
-/* funcao que recebe uma string da pagina HTML e uma string do nome da pagina e faz a contagem dos contadores para a repeticao
- * de cada letra ou palavra indicada
- */
         static void ler(String s, String nome)
 	{
-//definindo os caracteres especiais segundo o codigo ASCII
 		char aGrave = (char)224;
 		char aAgudo = (char)225;
 	        char aTil = (char)227;
@@ -238,20 +231,16 @@ class LeituraHTML
 				 }
 				  else if (temp == eCirc)
 				 {
-					 cont[18]= cont[18]+1;
-				 }
+					 cont[18]= cont[18]+1;				 }
 				  else if (temp == iCirc)
 				 {
-					 cont[19] =cont[19]+1;
-				 }
+					 cont[19] =cont[19]+1;				 }
 				  else if (temp == oCirc)
 				 {
-					 cont[20]= cont[20]+1;
-				 }
+					 cont[20]= cont[20]+1;				 }
 				  else if (temp == uCirc)
 				 {
-					 cont[21]= cont[21]+1;
-				 }
+					 cont[21]= cont[21]+1;				 }
 			
 				  else if (temp == '<' && s.charAt(i+1) =='b' && s.charAt(i+2) == 'r' && s.charAt(i+3) == '>')
 				 {
@@ -268,7 +257,6 @@ class LeituraHTML
 							 cont[22] = cont [22]+1;
 						 }
 		}
-//imprimindo todos os contadores
 			  imprimir('a', cont[0]);
 	                  imprimir('e', cont[1]);
 	                  imprimir('i', cont[2]);
@@ -300,7 +288,6 @@ class LeituraHTML
 	public static void main(String args[])
 	{
 		boolean status = true;
-//while com condicao = true ate que a condicao do if com o break dentro seja atendida
 		while(status)
 		{
 
