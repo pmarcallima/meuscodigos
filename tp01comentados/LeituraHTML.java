@@ -79,7 +79,7 @@ class MyIO {
    }
 }
 
-class Leitura
+class LeituraH
 {
    public static String getHtml(String endereco){
       URL url;
