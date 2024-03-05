@@ -237,11 +237,12 @@ class ListaDupla
 	 */
     private void quicksort(int esq, int dir) {
         int i = esq, j = dir;
-        Celula pivo = primeiro.prox;
-	Celula m = primeiro.prox;
-        Celula a = primeiro.prox;
+        CelulaDupla pivo = primeiro.prox;
+	CelulaDupla m = primeiro.prox;
+        CelulaDupla a = primeiro.prox;
 	for(int x =0; x< (esq+dir)/2; x++)
 		pivo = pivo.prox;
+	System.out.println("PIVO"+pivo.elemento);
 		for(int x = 0; x<i; x++)
 		{
 			m = m.prox;
@@ -250,11 +251,15 @@ class ListaDupla
 		{
 			a = a.prox;
 		}
-
+        System.out.println("ESQ"+esq);
+	System.out.println("DIR"+dir);
+	System.out.println("I:"+ i + "J:"+j);
+	mostrar();
 
         while (i <= j) {
             while (m.elemento < pivo.elemento)
 	    {
+		//    System.out.println("elemento: "+m.elemento+" pivo: "+pivo.elemento);
 		    i++;
 		    m = m.prox;
 	    } 
@@ -264,7 +269,9 @@ class ListaDupla
 		    a = a.ant;
 	    }
             if (i <= j) {
+		    System.out.println("entrou");
                 int tmp = a.elemento;
+		System.out.println("elementos a serem trocados: "+a.elemento+ " "+m.elemento);
 		a.elemento = m.elemento;
 		m.elemento = tmp;
 		a = a.ant;
@@ -273,6 +280,7 @@ class ListaDupla
                 j--;
             }
         }
+	System.out.println(a.elemento+ " "+m.elemento);
         if (esq < j)  quicksort(esq, j);
         if (i < dir)  quicksort(i, dir);
     }
@@ -282,12 +290,14 @@ public static void main(String args[])
 	{
 		ListaDupla l = new ListaDupla();
 		l.inserirFim(5);
-		l.inserirFim(4);
+		l.inserirFim(3);
 		l.inserirInicio(1);
-		l.inserirInicio(3);
+		l.inserirInicio(4);
 		l.inserirFim(2);
 		l.inserirFim(220);
 		l.inserirFim(20);
+		l.inserirInicio(500);
+		l.inserirInicio(2000);
 		l.mostrar();
 		l.qsort();
 			l.mostrar();
