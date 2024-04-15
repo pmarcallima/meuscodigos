@@ -91,7 +91,7 @@ void setEstadoNascimento(Jogador* x, char* estadoNascimento)
 }
 bool desempate(Jogador *x, Jogador *y)
 {
-	if(getPeso(x)!= getPeso(y)) 
+	if(getPeso(x)!= getPeso(y))
 			{
 			  return false;
 			}
@@ -134,7 +134,7 @@ Jogador* ler()
  Jogador *resp = malloc(3923*sizeof(Jogador));
    while(fscanf(arq, "%[^\n]", temp) != EOF)
    {
-	   cont = 0; 
+	   cont = 0;
 	   fgetc(arq);
 	   char *items[8];
 	   items[4]="";
@@ -192,7 +192,7 @@ Jogador* ler()
          {
              setAnoNascimento(y, atoi(items[4]));
          }
-         
+
 //comparar o input do usuario com o que esta sendo lid
 	 resp[num] =clone(y);
 	 num++;
@@ -214,9 +214,9 @@ void imprimir(Jogador *x)
 	printf("%d", getPeso(x));
 	printf(" ## ");
 	printf("%d", getAnoNascimento(x));
-	printf(" ## "); 
+	printf(" ## ");
 	printf("%s", getUniversidade(x));
-	printf(" ## "); 
+	printf(" ## ");
 	printf("%s", getCidadeNascimento(x));
 	printf(" ## ");
 	printf("%s]", getEstadoNascimento(x));
@@ -227,7 +227,7 @@ void swap(Jogador *i, Jogador *j)
 	Jogador tmp = *i;
 	*i = *j;
 	*j = tmp;
-	
+
 }
 int Compare2(Jogador *x, Jogador *y)
 {
@@ -314,7 +314,7 @@ void insercao(Jogador *array, int n){
 //=============================================================================
 void selecao(Jogador *array, int n, int i){
    if(i == n-1)
-	  return; 
+	  return;
       int menor = i;
       for (int j = (i + 1); j < n; j++){
          if (strcmp(getNome(&array[menor]), getNome(&array[j]))>0){
@@ -322,7 +322,7 @@ void selecao(Jogador *array, int n, int i){
          }
       }
       swap(&array[menor], &array[i]);
-      selecao(array, n, i+1);   
+      selecao(array, n, i+1);
 }
 void sort(Jogador *array, int n)
 {
@@ -385,7 +385,7 @@ void heapsort(Jogador *array, int n) {
 
     //Contrucao do heap
 /*    for(int tamHeap = 2; tamHeap <= k; tamHeap++){
-        construir(arrayTmp, tamHeap);	
+        construir(arrayTmp, tamHeap);
     }
 
     //Ordenacao propriamente dita
@@ -480,11 +480,11 @@ int main()
   char ch = getchar();
    if(strcmp(temp, "FIM")== 0)
    {
-		  break; 
+		  break;
    }
    int num = atoi(temp);
-   z[i]= y[num+1]; 
-  i++; 
+   z[i]= y[num+1];
+  i++;
 
   }
   log.tempo = clock();
@@ -492,7 +492,7 @@ int main()
   int m = 0;
  /* while(1)
   {
-	  
+
    scanf("%[^\n]", temp);
    char ch = getchar();
    if(strcmp(temp, "FIM") == 0)
@@ -503,7 +503,7 @@ int main()
    if(resp == true)
    {
 	   printf("SIM\n");
-	   
+
    }
    else
 	   printf("NAO\n");

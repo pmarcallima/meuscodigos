@@ -461,6 +461,11 @@ int getlinhas()
         }
     }
     fclose(veiculos);
+    if(cont == 0)
+    {
+        return 0;
+    }
+    else
     return cont-1;
 }
 //metodo main

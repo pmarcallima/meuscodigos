@@ -119,7 +119,7 @@ Jogador* ler()
  Jogador *resp = malloc(3923*sizeof(Jogador));
    while(fscanf(arq, "%[^\n]", temp) != EOF)
    {
-	   cont = 0; 
+	   cont = 0;
 	   fgetc(arq);
 	   char *items[8];
 	   items[4]="";
@@ -177,7 +177,7 @@ Jogador* ler()
          {
              setAnoNascimento(y, atoi(items[4]));
          }
-         
+
 //comparar o input do usuario com o que esta sendo lid
 	 resp[num] =clone(y);
 	 num++;
@@ -199,9 +199,9 @@ void imprimir(Jogador *x)
 	printf("%d", getPeso(x));
 	printf(" ## ");
 	printf("%d", getAnoNascimento(x));
-	printf(" ## "); 
+	printf(" ## ");
 	printf("%s", getUniversidade(x));
-	printf(" ## "); 
+	printf(" ## ");
 	printf("%s", getCidadeNascimento(x));
 	printf(" ## ");
 	printf("%s]", getEstadoNascimento(x));
@@ -213,7 +213,7 @@ void swap(Jogador *i, Jogador *j)
 	Jogador tmp = *i;
 	*i = *j;
 	*j = tmp;
-	
+
 }
 //metodo para comparar jogadores com o atributo primário sendo o EstadoNascimento e o secundário o nome
 int compare2(Log *log, Jogador *x, Jogador *y)
@@ -260,7 +260,7 @@ void fazerLog(Log *log)
    fclose(arq);
 }
 int main()
-{ 
+{
 //criação de variavéis e alocação de memória
   clock_t start_t, end_t;
   Log *log = malloc(sizeof(Log));
@@ -276,11 +276,11 @@ int main()
   char ch = getchar();
    if(strcmp(temp, "FIM")== 0)
    {
-		  break; 
+		  break;
    }
    int num = atoi(temp);
-   z[i]= y[num+1]; 
-  i++; 
+   z[i]= y[num+1];
+  i++;
 
   }
 

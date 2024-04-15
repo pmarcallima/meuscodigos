@@ -1,3 +1,4 @@
+
 public interface Registro extends Comparable<Object>, Cloneable {
 
   public int getID();

@@ -14,6 +14,7 @@ class Jogador
     {
 
     }
+
 // Construtor com parâmetros para todos atributos
     public Jogador(int id, String nome, int altura, int peso, String universidade, int anoNascimento, String cidadeNascimento, String estadoNascimento)
     {
@@ -54,7 +55,7 @@ class Jogador
     void setCidadeNascimento(String cidadeNascimento)
     {
 	    this.cidadeNascimento = cidadeNascimento;
-    } 
+    }
     void setEstadoNascimento(String estadoNascimento)
     {
 	    this.estadoNascimento = estadoNascimento;
@@ -114,7 +115,7 @@ class Jogador
 	    Arq.readLine();
 	    while(Arq.hasNext())
 	    {
-            jogador[i] = new Jogador(); 
+            jogador[i] = new Jogador();
 	    String jog = Arq.readLine();
 	    String[] temp = new String[8];
             temp= jog.split(",", 8);
@@ -129,7 +130,7 @@ class Jogador
 
 // Ifs para lidar com campos vazios
 	    if(temp[4].isEmpty())
-	           jogador[i].setUniversidade("nao informado");  
+	           jogador[i].setUniversidade("nao informado");
 	    if(temp[6].isEmpty())
 		   jogador[i].setCidadeNascimento("nao informado");
 	    if(temp[7].isEmpty())
@@ -181,7 +182,7 @@ class Jogador
 	 */
    @Override
    public void sort() {
-	inicio = new Date().getTime();   
+	inicio = new Date().getTime();
       //Array para contar o numero de ocorrencias de cada elemento
       int[] count = new int[getMaior() + 1];
       Jogador[] ordenado = new Jogador[n];
@@ -198,7 +199,7 @@ class Jogador
       //Ordenando
       for(int i = n-1; i >= 0; ordenado[count[array[i].getAltura()]-1] = array[i], count[array[i].getAltura()]--, i--)
 	      mov++;
-                      
+
       //Copiando para o array original
       for(int i = 0; i < n; array[i] = ordenado[i], i++)
 	      mov++;
@@ -246,7 +247,7 @@ class Jogador
 }
 //Metodo para ordenar por nome os jogadores que possuem a mesma altura
  public void ordemNome() {
-	
+
       for (int i = 0; i < (n - 1); i++) {
          int menor = i;
          for (int j = (i + 1); j < n; j++){
@@ -275,7 +276,7 @@ class Geracao extends Jogador
 	}
 	public void entrada()
 	{
-	
+
 	}
 	public void ordemNome()
 	{
@@ -287,7 +288,7 @@ class Geracao extends Jogador
 		{
 			array[i] = clonej(tmp[i]);
 		}
-       
+
 	}
 //Chamada do metodo de sort
 	public void sort()
@@ -343,7 +344,7 @@ class Geracao extends Jogador
        array[menor].setUniversidade(clone1.getUniversidade());
        array[menor].setAnoNascimento(clone1.getAnoNascimento());
        array[menor].setCidadeNascimento(clone1.getCidadeNascimento());
-       array[menor].setEstadoNascimento(clone1.getEstadoNascimento()); 
+       array[menor].setEstadoNascimento(clone1.getEstadoNascimento());
    }
 }
 //classe principal

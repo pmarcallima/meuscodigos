@@ -10,10 +10,12 @@ class Jogador
     private String cidadeNascimento;
     private String estadoNascimento;
 // Construtor sem parâmetros
+
     public Jogador()
     {
 
     }
+
 // Construtor com parâmetros para todos atributos
     public Jogador(int id, String nome, int altura, int peso, String universidade, int anoNascimento, String cidadeNascimento, String estadoNascimento)
     {
@@ -54,7 +56,7 @@ class Jogador
     void setCidadeNascimento(String cidadeNascimento)
     {
 	    this.cidadeNascimento = cidadeNascimento;
-    } 
+    }
     void setEstadoNascimento(String estadoNascimento)
     {
 	    this.estadoNascimento = estadoNascimento;
@@ -114,7 +116,7 @@ class Jogador
 	    Arq.readLine();
 	    while(Arq.hasNext())
 	    {
-            jogador[i] = new Jogador(); 
+            jogador[i] = new Jogador();
 	    String jog = Arq.readLine();
 	    String[] temp = new String[8];
             temp= jog.split(",", 8);
@@ -129,7 +131,7 @@ class Jogador
 
 // Ifs para lidar com campos vazios
 	    if(temp[4].isEmpty())
-	           jogador[i].setUniversidade("nao informado");  
+	           jogador[i].setUniversidade("nao informado");
 	    if(temp[6].isEmpty())
 		   jogador[i].setCidadeNascimento("nao informado");
 	    if(temp[7].isEmpty())
@@ -188,7 +190,7 @@ class Jogador
          int j = i - 1;
 
          while ((j >= 0) && (compare2(array[j], tmp))){
-	    	    		    
+
             array[j + 1] = array[j];
 	    mov++;
             j--;
@@ -198,7 +200,7 @@ class Jogador
       }
 	fim = new Date().getTime();
    }
-   
+
 //Metodo que constrói o arquivo log da ordenação por seleção
    public void log()
    {
@@ -241,7 +243,7 @@ class Geracao extends Jogador
 	}
 	public void entrada()
 	{
-	
+
 	}
 //Metodo para preencher o array de jogadores
 	public void preencher(Jogador[] tmp)
@@ -250,7 +252,7 @@ class Geracao extends Jogador
 		{
 			array[i] = clonej(tmp[i]);
 		}
-       
+
 	}
 //Chamada do metodo de sort
 	public void sort()
@@ -306,7 +308,7 @@ class Geracao extends Jogador
        array[menor].setUniversidade(clone1.getUniversidade());
        array[menor].setAnoNascimento(clone1.getAnoNascimento());
        array[menor].setCidadeNascimento(clone1.getCidadeNascimento());
-       array[menor].setEstadoNascimento(clone1.getEstadoNascimento()); 
+       array[menor].setEstadoNascimento(clone1.getEstadoNascimento());
    }
 }
 //classe principal
