@@ -1,0 +1,3 @@
+[submodule "fit_tracker"]
+	path = fit_tracker
+	url = https://github.com/pmarcallima/fit_tracker

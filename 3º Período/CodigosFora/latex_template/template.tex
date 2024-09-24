@@ -1,0 +1,171 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings} % Para destacar código fonte
+\usepackage{xcolor} % Para cores personalizadas
+\usepackage{tikz}
+\usepackage{listingsutf8}
+
+\definecolor{mGreen}{rgb}{0,0.6,0}
+\definecolor{mGray}{rgb}{0.5,0.5,0.5}
+\definecolor{mPurple}{rgb}{0.58,0,0.82}
+\definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
+\definecolor{emerald}{rgb}{0.31, 0.78, 0.47}
+
+% Definindo estilo para o código fonte
+\lstset{
+   backgroundcolor=\color{backgroundColour},   
+    commentstyle=\color{mGreen},
+    keywordstyle=\bfseries\color{magenta},
+    numberstyle=\tiny\color{mGray},
+    stringstyle=\color{mPurple},
+    identifierstyle=\ttfamily,
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=C++,
+    frame=single,
+    aboveskip=20pt,
+    belowskip=10pt,
+     morekeywords={typedef,struct},
+  morekeywords=[2]{Pokemon, Treinador}, % Adicionando 'Pokemon' como palavra-chave
+  keywordstyle=[2]\color{emerald} % Estilo para 'Pokemon' como tipo
+}
+\lstset{
+    literate=%
+    {á}{{\'a}}1
+    {é}{{\'e}}1
+    {í}{{\'i}}1
+    {ó}{{\'o}}1
+    {ú}{{\'u}}1
+    {ã}{{\~a}}1
+    {õ}{{\~o}}1
+    {ç}{{\c{c}}}1
+}
+\title{\Huge{Teoria dos Grafos e Computabilidade}\\Implementação 1}
+\author{{Fabio Antônio, Lucas Alkmim, Pedro Marçal, Pedro Ribeiro}}
+\date{11 de Agosto, 2024}
+\begin{document}
+\maketitle
+\newpage
+
+\renewcommand{\contentsname}{Conteúdo}
+\tableofcontents
+
+\pagebreak
+
+\section{Introdução}
+% Sua introdução aqui
+
+\subsection{Objetivo}
+O objetivo deste projeto é de a partir do universo da franquia de jogos Pokemon, simular um sistema de batalha entre dois treinadores e seus respectivos pokemons, considerando as relações entre seus tipos e variedade de tamanho de equipe.
+
+\section{Estrutura do Código}
+
+\subsection{Structs}
+
+As struct utilizadas para a implementação do código foram as seguintes:
+
+\begin{lstlisting} 
+typedef struct Pokemon {
+	char nome[NOME_MAX_TAMANHO];
+	float ataque;
+	float defesa;
+	float vida;
+	char tipo[TIPO_MAX_TAMANHO];
+} Pokemon;
+
+typedef struct Treinador {
+  int quantidade;
+  int pokemons_mortos;
+  Pokemon *pokemon;
+} Treinador;
+
+\end{lstlisting}
+Que são inicializados pelas funções:
+
+\begin{lstlisting}
+void lerPokemons(Treinador *treinador, FILE *arquivo) {}
+
+Treinador *fazerTreinador(int num_pokemon) {}
+\end{lstlisting}
+\subsection{Constantes}
+As contantes para tamanho utilizadas foram definidas ,quando não identificadas no enunciado, por meio de uma escolha, como a TIPO\_MAX\_TAMANHO, que segue a lógica da maior string de tipo existente nesse contexto ser 8 (elétrico) +1 (caractere nulo no final da string).
+\begin{lstlisting}
+#define TIPO_MAX_TAMANHO 9
+#define NOME_MAX_TAMANHO 100
+#define POKEMON_MAX_QUANTIDADE 100
+\end{lstlisting}
+\subsection{Fluxo de Execução}
+Respeitando o seguinte fluxo de execução:
+\begin{itemize}
+	\item Leitura de dados do arquivo
+	\item Definição e atribuição dos treinadores e seus respectivos pokemons
+	\item Simulação da batalha
+	\item Mostragem dos resultados
+\end{itemize}
+\begin{lstlisting}
+
+  FILE *arquivo = fopen("teste.txt", "r");
+  fscanf(arquivo, "%d %d", &num_pokemon_1, &num_pokemon_2);
+
+  Treinador *treinador_1 = fazerTreinador(num_pokemon_1);
+
+  lerPokemons(treinador_1, arquivo);
+
+  batalhar(treinador_1, treinador_2);
+
+  imprimirResultados(treinador_1, treinador_2);
+\end{lstlisting}
+vale ressaltar que o procedimento
+\begin{lstlisting}
+  void batalhar(Treinador treinador_1, Treinador treinador_2) {}
+\end{lstlisting}
+utiliza na sua implementação para o calculo de dano a relação entre defesa - ataque, já considerando o ataque ajustado pela relação de fraqueza de tipos, no seguinte método:
+\begin{lstlisting}
+int calcularDano(Pokemon *atacando, Pokemon *alvo) {
+  float fator = calcularFraqueza(atacando->tipo, alvo->tipo);
+  float ataque = atacando->ataque * fator;
+  float diferenca = (ataque - alvo->defesa);
+\end{lstlisting}
+fator de fraqueza calculado a partir do método a seguir:
+\begin{lstlisting}
+float calcularFraqueza(char *tipo_atacando, char *tipo_alvo) {
+  float fator = 1;
+  if (strcmp(tipo_atacando, "pedra") == 0) {
+    if (strcmp(tipo_alvo, "eletrico") == 0 || strcmp(tipo_alvo, "elétrico") == 0)
+      fator = 1.2;
+    else if (strcmp(tipo_alvo, "gelo") == 0)
+      fator = 0.8;
+\end{lstlisting}
+
+\pagebreak
+\section{Observações}
+Foi utilizado o atributo pokemons\_mortos da struct Pokemon para facilitar a implementação de algumas funções ao decorrer do código, como no procedimento void imprimirResultados(), para evitar a criação de mais parâmetros para contar as posições, como no trecho a seguir:
+\begin{lstlisting}
+ printf("Pokemons derrotados:\n");
+  for (int i = 0; i < treinador_1->pokemons_mortos; i++)
+    printf("%s ", treinador_1->pokemon[i].nome);
+
+\end{lstlisting}
+ou para saber corretamente em qual pokemon de cada treinador esta sendo utilizado no vetor:
+\begin{lstlisting}
+ if (fatalidade == 1) {
+        printf("%s venceu %s\n", treinador_1->pokemon[treinador_1->pokemons_mortos].nome, treinador_2->pokemon[treinador_2->pokemons_mortos].nome);
+        treinador_2->pokemons_mortos++;
+      }
+\end{lstlisting}
+
+
+
+
+\end{document}
+
+
