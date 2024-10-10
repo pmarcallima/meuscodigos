@@ -1,0 +1,171 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings} % Para destacar código fonte
+\usepackage{xcolor} % Para cores personalizadas
+\usepackage{tikz}
+\usepackage{listingsutf8}
+
+\definecolor{mGreen}{rgb}{0,0.6,0}
+\definecolor{mGray}{rgb}{0.5,0.5,0.5}
+\definecolor{mPurple}{rgb}{0.58,0,0.82}
+\definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
+\definecolor{emerald}{rgb}{0.31, 0.78, 0.47}
+
+% Definindo estilo para o código fonte
+\lstset{
+   backgroundcolor=\color{backgroundColour},   
+    commentstyle=\color{mGreen},
+    keywordstyle=\bfseries\color{magenta},
+    numberstyle=\tiny\color{mGray},
+    stringstyle=\color{mPurple},
+    identifierstyle=\ttfamily,
+    basicstyle=\ttfamily\footnotesize,
+    escapeinside = {<@}{@>},
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=C++,
+    frame=single,
+    aboveskip=20pt,
+    belowskip=10pt,
+     morekeywords={typedef,struct},
+  morekeywords=[2]{Pokemon, Treinador}, % Adicionando 'Pokemon' como palavra-chave
+  keywordstyle=[2]\color{emerald} % Estilo para 'Pokemon' como tipo
+}
+\lstset{
+    literate=%
+    {á}{{\'a}}1
+    {é}{{\'e}}1
+    {í}{{\'i}}1
+    {ó}{{\'o}}1
+    {ú}{{\'u}}1
+    {ã}{{\~a}}1
+    {õ}{{\~o}}1
+    {ç}{{\c{c}}}1
+}
+\title{\Huge{Teoria dos Grafos e Computabilidade}\\Implementação 2}
+\author{{Fabio Antônio, Lucas Alkmim, Pedro Marçal, Pedro Ribeiro}}
+\date{10 de Setembro, 2024}
+\begin{document}
+\maketitle
+\newpage
+
+\renewcommand{\contentsname}{Conteúdo}
+\tableofcontents
+
+\pagebreak
+
+\section{Introdução}
+% Sua introdução aqui
+
+\subsection{Objetivo}
+O objetivo desse codigo é implementar e exibir possivéis aplicações dos algoritmos de Dijkstra, Min-Max e Max-Min em grafos.
+\section{Algoritmo de Dijkstra}
+
+\subsection{Classes}
+
+A classe utilizada para a implementação do código foi a seguinte:
+
+\begin{lstlisting} 
+
+class Graph {
+
+public:
+  vector<vector<int>> adj_matrix;
+
+  Graph(int n) {};
+  void add_edge(int u, int v, int p) {};
+  void print() {};
+};
+
+\end{lstlisting}
+
+\subsection{Função}
+A função é definida como:
+\begin{lstlisting}
+  void Dijkstra(Graph *g, int v) {};
+\end{lstlisting}
+recebe um grafo(g) e um vértice v(vértice de início) e calcula o menor caminho do vértice v para todos os outros vértices.
+
+
+\subsection{Criação de variavéis}
+\begin{lstlisting}
+  int n = g->adj_matrix.size();
+  vector<int> dist_array(n, INT_MAX);
+  vector<bool> visited(n, false);
+  vector<int> prev(n, -1);
+
+\end{lstlisting}
+
+ Nesse trecho inicializamos o vetor de distâncias com tamanho n e valor $\infty$+, o vetor booleano de verificação de visita a um vértice com tamanho n e valor false, o vetor de antecessores com tamanho n e valor -1 como também a fila de prioridade, definida como:  
+\begin{lstlisting}
+  priority_queue<pair<int, int>> , vector<pair<int, int>>, greater<pair<int, int>>> pq;
+\end{lstlisting}
+Em que o tipo de dados será um par de inteiros(valor do vértice e posição do vértice na matriz de adjacência). Armazenados em um vetor de par de inteiros e sendo uma fila de prioridade mínima.
+
+\subsection{Execução}
+Respeitando o seguintes passos: 
+\begin{itemize}
+  \item Até que a fila de prioridade esteja vazia
+  \begin{lstlisting}
+  while (pq.empty() == false) {
+  \end{lstlisting}
+  \item Escolher o vértice mais "barato" dentre os vizinhos do vértice atual e remover vértice escolhido
+
+  \begin{lstlisting}
+    int path_vertex = pq.top().second;
+    pq.pop();
+  \end{lstlisting}
+	\item Atualizar o custo dos vizinhos desse vértice e atualizar na fila de prioridade
+  \begin{lstlisting}
+
+    for (int i = 0; i < n; i++) {
+      if (g->adj_matrix[path_vertex][i] != 0 && visited[i] == false) {
+        int min_dist = dist_array[path_vertex] + g->adj_matrix[path_vertex][i];
+        if (dist_array[i] > min_dist) {
+          dist_array[i] = min_dist;
+          prev[i] = path_vertex;
+          pq.push({min_dist, i});
+        }
+      }
+  \end{lstlisting}
+  \pagebreak
+\item Imprimir na tela os resultados
+  \begin{lstlisting}
+
+  for (int i = 0; i < n; i++) {
+    cout << "Distancia ate o no " << i << " = " << dist_array[i] << endl;
+
+    cout << "Caminho: ";
+    cout << endl;
+  \end{lstlisting}
+\item e o caminho feito por cada um 
+  \begin{lstlisting}
+void print_path(const vector<int> &prev, int v) {
+  if (prev[v] == -1) {
+    cout << v; 
+    return;
+  }
+  print_path(prev, prev[v]); 
+  cout << " -> " << v;       
+}
+  \end{lstlisting}
+
+\end{itemize}
+
+\pagebreak
+\section{Aplicações}
+
+
+
+
+\end{document}
+
+

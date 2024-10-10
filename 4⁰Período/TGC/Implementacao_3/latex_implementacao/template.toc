@@ -1,0 +1,8 @@
+\contentsline {section}{\numberline {1}Introdução}{3}{}%
+\contentsline {subsection}{\numberline {1.1}Objetivo}{3}{}%
+\contentsline {section}{\numberline {2}Algoritmo de Dijkstra}{3}{}%
+\contentsline {subsection}{\numberline {2.1}Classes}{3}{}%
+\contentsline {subsection}{\numberline {2.2}Função}{3}{}%
+\contentsline {subsection}{\numberline {2.3}Criação de variavéis}{3}{}%
+\contentsline {subsection}{\numberline {2.4}Execução}{4}{}%
+\contentsline {section}{\numberline {3}Aplicações}{6}{}%
