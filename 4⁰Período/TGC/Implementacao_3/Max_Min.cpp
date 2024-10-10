@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <climits>
 #include <iostream>
+#include <queue>
 #include <vector>
 using namespace std;
 // Algoritmo de disjkstra
@@ -26,32 +27,53 @@ public:
     }
   }
 };
+
+void print_path(const vector<int> &prev, int v) {
+  if (prev[v] == -1) {
+    cout << v; 
+    return;
+  }
+  print_path(prev, prev[v]); 
+  cout << " -> " << v;       
+}
+
 void Max_Min(Graph *g, int v) {
   int n = g->adj_matrix.size();
-  vector<int> dist_array(n, INT_MIN);
-  vector<bool> visited(n, false);
-  dist_array[v] = INT_MAX;
-  for (int i = 0; i < n; i++) {
-    int vertex_min_edge = -1;
-    for (int j = 0; j < n; j++) {
-      if (visited[j] == false &&
-          (vertex_min_edge == -1 || dist_array[j] > dist_array[vertex_min_edge]))
-        vertex_min_edge = j;
-    }
-    visited[vertex_min_edge] = true;
+  vector<int> min_path_edge(n, INT_MIN); 
+  vector<int> prev(n, -1);              
+  vector<bool> visited(n, false);      
+
+  priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+
+  min_path_edge[v] = INT_MAX;
+  pq.push({INT_MAX, v});
+
+  while (!pq.empty()) {
+    int max_min_vertex = pq.top().second;
+    pq.pop();
+
+    if (visited[max_min_vertex] == true) continue; 
+    visited[max_min_vertex] = true;
 
     for (int x = 0; x < n; x++) {
-      if (g->adj_matrix[vertex_min_edge][x] != 0 && visited[x] == false) {
-        int new_dist = min(dist_array[vertex_min_edge] , g->adj_matrix[vertex_min_edge][x]);
-        if (dist_array[x] < new_dist) {
-          dist_array[x] = new_dist;
+      if (g->adj_matrix[max_min_vertex][x] != 0 && visited[x] == false) {
+        int new_min_edge = min(min_path_edge[max_min_vertex], g->adj_matrix[max_min_vertex][x]);
+
+        if (min_path_edge[x] < new_min_edge) {
+          min_path_edge[x] = new_min_edge;
+          prev[x] = max_min_vertex;
+          pq.push({new_min_edge, x}); 
         }
       }
     }
   }
-  cout << "Distâncias do nó de origem " << v << ":" << endl;
+
+  cout << "max_min para cada vértice a partir de " << v << ":" << endl;
   for (int i = 0; i < n; i++) {
-    cout << "Distância até o nó " << i << " = " << dist_array[i] << endl;
+    cout << "Vértice " << i << " = " << min_path_edge[i] << endl;
+    cout << "Caminho: ";
+    print_path(prev, i);  
+    cout << endl;
   }
 }
 
