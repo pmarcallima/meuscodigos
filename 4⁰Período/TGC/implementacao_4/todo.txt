@@ -1,0 +1,51 @@
+TODO LIST:
+
+
+Considere um grafo não direcionado G(V,E) ponderado, em que o peso é não negativo medindo a diferença entre elementos vizinhos no grafo.	
+
+V = pixels,
+W = medida de dissimilaridade as pontas da aresta
+
+
+A segmentação é a divisão do conjunto V em componentes conexos.
+
+
+Internal difference = maior peso na MST do componente conexo.
+Int(C) = max w(e) da MST
+
+Difference between = menor aresta conectando os dois componentes conexos
+
+Dif(C1, C2) = min w((vi,vj)), sendo vi E C1 e vj E C2 e (vi,vj) E E
+
+Se não possui uma aresta entre C1 e C2 entao Dif = infinito
+
+
+D(C1, C2) = true if Dif(C1, C2) > MInt(C1, C2)
+	    false se não
+Minimum internal difference 
+
+MInt(C1,C2) = min(Int(C1) + t(C1), Int(C2) + t(C2)).
+em que t é uma função para controlar o grau da diferença entre dois componentes deve ser maior que a sua diferença interna para D = true
+
+t(C) = k/|C|
+
+em que k é uma constante definida previamente
+quanto maior k, menos componentes divididos
+quanto menor k, mais componentes divididos
+
+Algoritmo:
+
+Grafo G = (V,E) com n vértices e m arestas
+Saída = S = (C1, C2, C3,..., Cr)
+
+	.0 Ordenar E por peso não decrescente	
+	.1 Cada vértice é um Componente conexo isolado
+	.2 Repetir etapa 3 para q 1 até m
+	.3 Construir Sq dado Sq-1 a partir de:
+		- vi e vj vértices conectados pela q-ésima aresta na ordem
+		- Oq = (vi, vj)
+		- Se vi e vj estão em componentes diferentes de Sq-1 e w(Oq) é menor que MInt(C1, C2) então juntar os dois em um único componente
+		- Se não bater o anterior, deixar como está
+	.4 Retornar S = Sm
+
+

@@ -24,11 +24,17 @@
 \contentsline {section}{\numberline {1.14}Subgrafo}{10}{section.1.14}%
 \contentsline {section}{\numberline {1.15}Ciclos}{10}{section.1.15}%
 \contentsline {section}{\numberline {1.16}Grafo Ciclo}{11}{section.1.16}%
-\contentsline {section}{\numberline {1.17}Termos}{11}{section.1.17}%
-\contentsline {chapter}{\numberline {2}Algortimos}{12}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Busca em profundidade(DFS)}{12}{section.2.1}%
-\contentsline {chapter}{\numberline {3}}{13}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Random Examples}{13}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Random}{14}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Algorithms}{16}{section.3.3}%
+\contentsline {section}{\numberline {1.17}Grafo Regular}{11}{section.1.17}%
+\contentsline {section}{\numberline {1.18}Grafo Roda}{12}{section.1.18}%
+\contentsline {section}{\numberline {1.19}Grafo Caminho}{12}{section.1.19}%
+\contentsline {section}{\numberline {1.20}Grafo Ponderado}{13}{section.1.20}%
+\contentsline {section}{\numberline {1.21}Grafo Transposto}{13}{section.1.21}%
+\contentsline {section}{\numberline {1.22}Planaridade}{14}{section.1.22}%
+\contentsline {section}{\numberline {1.23}Termos}{14}{section.1.23}%
+\contentsline {chapter}{\numberline {2}Algortimos}{15}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Busca em profundidade(DFS)}{15}{section.2.1}%
+\contentsline {chapter}{\numberline {3}}{16}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Random Examples}{16}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Random}{17}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Algorithms}{19}{section.3.3}%
 \contentsfinish 

@@ -1,18 +1,17 @@
 Conceitos a serem trabalhados:
 -atualizar grau para falar de sequencia de graus
-	-Isomorfismo
 	-fecho transitivo
 	-fecho inverso
 	-grafo transposto
 	-Teorema do aperto de mão
 	-Quantidade de graus pares
-	-caminho
 	-auto-morfo
 	-excentricidade
 	-diametro e raio
 	-Base/qnti-base
 	-DFS
 	-Busca em Largura
+	-Tempo de entrada/saida
 	-Dijkstra
 	-Bellman-Ford
 	-Kruskall(TARJAN)
@@ -22,20 +21,25 @@ Conceitos a serem trabalhados:
 	-johnson
 	-caminho crítico
 	-AGM(Arvore geradora minima)
-	-Grafo ponderado
-	-Ciclos
-	-Tempo de entrada/saida
 	-Conectividade
 	-Grafos hamiltoninanos 
 	-Grafos eulerianos
 	-Kosajaru            
 	-Contração de vértice
 	-Contração de arestas
-	-Grafo ciclo
-	-Grafo roda
-	-Grafo caminho
-	-Grafo Completo
 	-Grafo bipartido completo
 	-Graph matching
 	-Ford fulkerson(caminho de aumento)
 	-Caminho disjuntos (de arestas e de vértices)= tamanho min cut set
+	-Cobertura de vértice
+	-Conjunto idependente
+	-Planaridade
+	-Grafo Ponderado ~
+	-Grafo caminho ~
+	-Grafo Completo ~
+	-Grafo ciclo ~
+	-Ciclos ~
+	-caminho ~
+	-Isomorfismo ~
+	-Grafo roda ~
+	

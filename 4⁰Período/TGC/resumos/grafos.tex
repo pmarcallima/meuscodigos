@@ -780,22 +780,332 @@ Um grafo Ciclo é um grafo que possui um caminho ciclo com todos seus vértices,
 \end{center}
 \dfnc{Grafo Ciclo}
 {
+
+	Dado um grafo
+	\[
+		G = (V, E)
+	\]
+	onde:
+	\[
+		G = \text{k-regular}
+	\]
+	\[
+		k = 2
+	\]
+	então:
+	\[
+		G = C_n
+	\]
+}
+\section{Grafo Regular}
+Um grafo regular é um grafo onde todos os vértices possuem o mesmo grau total
+\begin{center}
+	Grafo de Petersen(3-regular)
+\end{center}
+\begin{center}
+	\begin{tikzpicture}
+		\node[circle, draw] (A) at (0, 2) {A};
+		\node[circle, draw] (B) at (-3, 0) {B};
+		\node[circle, draw] (C) at (3, 0) {C};
+		\node[circle, draw] (D) at (-1.5, -3) {D};
+		\node[circle, draw] (E) at (1.5, -3) {E};
+		\node[circle, draw] (F) at (0, 0.75) {F};
+		\node[circle, draw] (G) at (-1.5, 0) {G};
+		\node[circle, draw] (H) at (-1, -1.5) {H};
+		\node[circle, draw] (I) at (1, -1.5) {I};
+		\node[circle, draw] (J) at (1.5, 0) {J};
+
+		\draw (A) -- (B);
+		\draw (A) -- (C);
+		\draw (A) -- (F);
+		\draw (B) -- (G);
+		\draw (B) -- (D);
+		\draw (C) -- (E);
+		\draw (C) -- (J);
+		\draw (D) -- (E);
+		\draw (D) -- (H);
+		\draw (E) -- (I);
+		\draw (F) -- (H);
+		\draw (F) -- (I);
+		\draw (G) -- (J);
+		\draw (G) -- (I);
+		\draw (H) -- (J);
+	\end{tikzpicture}
+\end{center}
+\begin{center}
+	Grafo Cúbico(3-regular)
+\end{center}
+\begin{center}
+	\begin{tikzpicture}
+		\node[circle, draw] (A) at (-2, 2) {A};
+		\node[circle, draw] (B) at (2, 2) {B};
+		\node[circle, draw] (C) at (-2, -2) {C};
+		\node[circle, draw] (D) at (2, -2) {D};
+		\node[circle, draw] (E) at (1, 1) {E};
+		\node[circle, draw] (F) at (-1, 1) {F};
+		\node[circle, draw] (G) at (1, -1) {G};
+		\node[circle, draw] (H) at (-1, -1) {H};
+
+		\draw (A) -- (B);
+		\draw (A) -- (C);
+		\draw (A) -- (F);
+		\draw (B) -- (E);
+		\draw (C) -- (H);
+		\draw (G) -- (D);
+		\draw (G) -- (D);
+		\draw (F) -- (E);
+		\draw (F) -- (H);
+		\draw (C) -- (D);
+		\draw (G) -- (D);
+		\draw (B) -- (D);
+		\draw (E) -- (G);
+		\draw (G) -- (H);
+	\end{tikzpicture}
+\end{center}
+
+\dfnc{Grafo K Regular}
+{
+	Dado um grafo:
+	\[
+		G =(V, E)
+	\]
+	onde:
+	\[
+		\forall v\in V, d(v) = k
+	\]
+	ou seja:
+	\[
+		\delta(G) = \Delta(G)
+	\]
+	\[
+		|E| = \frac{n \times k}{2}
+	\]
+	Então:
+	\[
+		G = \text{ k-regular graph(k é o grau)}
+	\]
+
+
+
+
+
+}
+\section{Grafo Roda}
+Um grafo roda é um grafo ciclo, que é adicionado um vértice novo ligado a todos os outros vértices do ciclo, se assemelhando a uma roda
+
+
+\begin{center}
+	\begin{tikzpicture}
+		\node[circle, draw] (A) at (-2, 2) {A};
+		\node[circle, draw] (B) at (2, 2) {B};
+		\node[circle, draw] (C) at (-2, -2) {C};
+		\node[circle, draw] (D) at (2, -2) {D};
+		\node[circle, draw] (E) at (0, 0) {E};
+
+		\draw (A) -- (B);
+		\draw (A) -- (C);
+		\draw (B) -- (E);
+		\draw (C) -- (D);
+		\draw (B) -- (D);
+		\draw (A) -- (E);
+		\draw (C) -- (E);
+		\draw (D) -- (E);
+	\end{tikzpicture}
+\end{center}
+\dfnc{Grafo Roda}
+{
+	Dado um grafo
+	\[
+		G = (V,E)
+	\]
+	em que
+	\[
+		V = \{v_1, v_2, \dots, v_{n-1}, v_c\}
+	\]
+	\[
+		v_c \in V, \,d(v_c) = \Delta(G) = n -1,  \; G[V \setminus \{ v_c\}] = C_{n-1}
+	\]
+	\[
+		|E| = 2n - 2
+	\]
+}
+\section{Grafo Caminho}
+{
+Um grafo caminho(Grafo Linear) é um grafo que pode ser representao linearmente, ou seja, é um grafo que a partir de uma de suas pontas(terminais) você alcança o outro terminal por meio de um caminho em linha reta.
+\begin{center}
+	\begin{tikzpicture}
+		\node[circle, draw] (A) at (-3, 0) {A};
+		\node[circle, draw] (B) at (-1.5, 0) {B};
+		\node[circle, draw] (C) at (0, 0) {C};
+		\node[circle, draw] (D) at (1.5, 0) {D};
+		\node[circle, draw] (E) at (3, 0) {E};
+
+		\draw (A) -- (B);
+		\draw (B) -- (C);
+		\draw (C) -- (D);
+		\draw (D) -- (E);
+	\end{tikzpicture}
+\end{center}
+\dfnc{Grafo Caminho}
+{
 Dado um grafo
 \[
 	G = (V,E)
 \]
 onde:
 \[
-	\forall v \in V, \;
+E = \{\{v_1, v_2\}, \{v_2, v_3\}, \dots, \{v_{n-1}, v_n\}\}
 \]
 \[
-	\mathcal{P}_{\text{max}}(v) = \underset{\mathcal{P} \in \; \mathcal{P}(v)}{\operatorname{arg\,max}} \, |E(\mathcal{P})| \; \land \; \mathcal{P}_{\text{max}}(v) = C
+	|E| = n-1
 \]
-então:
 \[
-	\mathcal{P}_{\text{max}}(v) = C_n
+	E' = \{ \{v_2, v_3\},\{v_3, v_4\},\{v_{n-2}, v_{n-1}\}\}
+\]
+\[
+	\forall v \in E', d(v) = 2
+\]
+\[
+	d(v_1) = d(v_n) = 1
 \]
 
+}
+}
+\section{Grafo Ponderado}
+	Um grafo ponderado é um grafo onde as arestas possuem um peso, ou seja, um valor atribuido a ela
+
+\begin{center}
+	\begin{tikzpicture}
+		\node[circle, draw] (A) at (-2, 2) {A};
+		\node[circle, draw] (B) at (2, 2) {B};
+		\node[circle, draw] (C) at (-2, -2) {C};
+		\node[circle, draw] (D) at (2, -2) {D};
+		\node[circle, draw] (E) at (1, 1) {E};
+		\node[circle, draw] (F) at (-1, 1) {F};
+		\node[circle, draw] (G) at (1, -1) {G};
+		\node[circle, draw] (H) at (-1, -1) {H};
+
+		\draw (A) -- node[above] {3} (B);
+		\draw (A) -- node[left] {4} (C);
+		\draw (A) -- node[above right] {2} (F);
+		\draw (B) -- node[above left] {5} (E);
+		\draw (C) -- node[below right] {6} (H);
+		\draw (D) -- node[below left] {7} (G);
+		\draw (F) -- node[above] {3} (E);
+		\draw (F) -- node[below left] {4} (H);
+		\draw (C) -- node[below] {8} (D);
+		\draw (B) -- node[right] {5} (D);
+		\draw (E) -- node[right] {6} (G);
+		\draw (G) -- node[below] {3} (H);
+	\end{tikzpicture}
+\end{center}
+\dfnc{Grafo Ponderado}
+{
+	Um grafo ponderado
+	\[
+	G = (V,E,w)
+	\]
+Ocorre quando:	
+	\[
+		V = \{v_1, v_2, v_3\} 
+	\]
+	\[
+		E = \{(v_1, v_2), (v_2,v_3)\}
+	\]
+	\[
+		w : E \to \mathbb{R}
+	\]
+	\[
+		w (v_1, v_2) = x, \quad w(v_2, v_3) = y 
+	\]
+	
+}
+\section{Grafo Transposto}
+Em um grafo direcionado(dirigido), o grafo transposto é o grafo obtido ao inverter a direção de todas arestas do grafo original.
+\newline
+\textbf{Grafo \( G \):}
+\begin{center}
+\begin{tikzpicture}[->, >=stealth, node distance=1.5cm]
+    \node[circle, draw] (A) at (0, 1.5) {A};
+    \node[circle, draw] (B) at (1.5, 1.5) {B};
+    \node[circle, draw] (C) at (1.5, 0) {C};
+    \node[circle, draw] (D) at (0, 0) {D};
+
+    \draw (A) -- (B);
+    \draw (B) -- (C);
+    \draw (C) -- (D);
+\end{tikzpicture}
+\end{center}
+\textbf{Grafo \( G^T \):}
+\begin{center}
+\begin{tikzpicture}[->, >=stealth, node distance=1.5cm]
+    \node[circle, draw] (A) at (0, 1.5) {A};
+    \node[circle, draw] (B) at (1.5, 1.5) {B};
+    \node[circle, draw] (C) at (1.5, 0) {C};
+    \node[circle, draw] (D) at (0, 0) {D};
+
+    \draw (B) -- (A);
+    \draw (C) -- (B);
+    \draw (D) -- (C);
+\end{tikzpicture}
+\end{center}
+\dfnc{Grafo Transponsto}
+{
+	Dado um grafo direcionado 
+	\[ 
+		G = (V,E)
+	\]
+	onde:
+}
+\section{Planaridade}
+A planaridade em um Grafo, está associada a capacidade de representar um Grafo visualmente sem o cruzamento de arestas, o que garante que ele possa ser "desenhado" em um plano
+
+\textbf{Grafo Planar:}
+\begin{center}
+\begin{tikzpicture}[node distance=2cm, every node/.style={circle, draw}]
+    \node (A) at (0, 0) {A};
+    \node (B) at (2, 0) {B};
+    \node (C) at (1, 1.5) {C};
+    \node (D) at (0, 3) {D};
+    \node (E) at (2, 3) {E};
+    \node (F) at (1, 4.5) {F};
+
+    \draw (A) -- (B);
+    \draw (A) -- (C);
+    \draw (B) -- (C);
+    \draw (C) -- (D);
+    \draw (C) -- (E);
+    \draw (D) -- (F);
+    \draw (E) -- (F);
+\end{tikzpicture}
+\end{center}
+
+\textbf{Grafo Planar, porém representado de forma Não Planar:}
+\begin{center}
+\begin{tikzpicture}[node distance=2cm, every node/.style={circle, draw}]
+    \node (A) at (0, 0) {A};
+    \node (B) at (2, 0) {B};
+    \node (C) at (1, 4.5) {C}; 
+    \node (D) at (0, 3) {D};
+    \node (E) at (2, 3) {E};
+    \node (F) at (1, 1.5) {F}; 
+
+    \draw (A) -- (B);
+    \draw (A) -- (C);
+    \draw (B) -- (C);
+    \draw (C) -- (D);
+    \draw (C) -- (E);
+    \draw (D) -- (F);
+    \draw (E) -- (F);
+\end{tikzpicture}
+\end{center}
+
+\dfnc{Cruzamento de arestas}
+{
+	Dado um grafo
+	\[
+		G = (V,E)
+	\]
 }
 
 \section{Termos}
