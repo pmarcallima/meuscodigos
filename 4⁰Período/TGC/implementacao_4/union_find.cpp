@@ -1,4 +1,5 @@
 
+#include "edge.hpp"
 #include <iostream>
 #include <unordered_map>
 #include <vector>
@@ -29,7 +30,7 @@ public:
     return parent[x];
   }
 
-void union_by_rank(int x, int y) {
+void union_by_rank(int x, int y, Edge current) {
     int rootX = find(x);
     int rootY = find(y);
 
@@ -37,18 +38,18 @@ void union_by_rank(int x, int y) {
         if (rank[rootX] > rank[rootY]) {
             parent[rootY] = rootX;
             component_size[rootX] += component_size[rootY];
-            Int[rootX] = max(Int[rootX], Int[rootY]);
+            Int[rootX] = max(max(Int[rootX], Int[rootY]), current.weight);
         } else if (rank[rootX] < rank[rootY]) {
             parent[rootX] = rootY;
             component_size[rootY] += component_size[rootX];
-            Int[rootY] = max(Int[rootY], Int[rootX]);
+            Int[rootY] = max(max(Int[rootY], Int[rootX]), current.weight);
         } else { // Mesmo rank: escolha arbitrária e incremente o rank
             parent[rootY] = rootX;
             component_size[rootX] += component_size[rootY];
-            Int[rootX] = max(Int[rootX], Int[rootY]);
+            Int[rootX] = max(max(Int[rootX], Int[rootY]), current.weight);
             rank[rootX]++;
         }
-    }
+    } 
 }
 
  void print_components() {
@@ -71,20 +72,4 @@ void union_by_rank(int x, int y) {
         }
     }
 
-  // Método para processar as arestas
-  void process_edges(const vector<pair<int, int>>& edges, const vector<double>& weights, double threshold) {
-    for (size_t i = 0; i < edges.size(); ++i) {
-      int vi = edges[i].first;
-      int vj = edges[i].second;
-      double weight = weights[i];
-
-      int rootVi = find(vi);
-      int rootVj = find(vj);
-
-      // Critério de fusão: se a aresta tem peso abaixo de um limiar, e as componentes são diferentes
-      if (rootVi != rootVj && weight < threshold) {
-        union_by_rank(vi, vj);  // Unir as componentes
-      }
-    }
-  }
 };

@@ -6,7 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#define K 87000 
+#define K  2000
 
 using namespace std; struct Pixel {
     int x;
@@ -25,10 +25,11 @@ struct Image {
 
 // Função para ler o arquivo PPM
 
+// Função para calcular a distância Euclidiana entre dois pixels
 struct Image *read_file(string filename) {
     struct Image *image = new struct Image;
     string magic_number;
-    ifstream file(filename, ios::binary);  // Abrir o arquivo em modo binário para P6
+    ifstream file(filename, ios::binary);  // Abrir o arquivo em modo binário
 
     if (!file.is_open()) {
         cerr << "Erro ao abrir o arquivo: " << filename << endl;
@@ -36,8 +37,8 @@ struct Image *read_file(string filename) {
     }
 
     file >> magic_number;
-    if (magic_number != "P3" && magic_number != "P6") {
-        cerr << "Formato do arquivo não é P3 ou P6!" << endl;
+    if (magic_number != "P3" && magic_number != "P6" && magic_number != "P2" && magic_number != "P5") {
+        cerr << "Formato do arquivo não é suportado: " << magic_number << endl;
         return nullptr;
     }
 
@@ -68,12 +69,37 @@ struct Image *read_file(string filename) {
                 image->pixel_matrix[i][j].y = j;
             }
         }
+    } else if (magic_number == "P2") {
+        // Para o formato P2 (PGM texto)
+        for (int i = 0; i < image->height; i++) {
+            for (int j = 0; j < image->width; j++) {
+                int gray;
+                file >> gray;
+                image->pixel_matrix[i][j].R = gray;
+                image->pixel_matrix[i][j].G = gray;
+                image->pixel_matrix[i][j].B = gray;
+                image->pixel_matrix[i][j].x = i;
+                image->pixel_matrix[i][j].y = j;
+            }
+        }
+    } else if (magic_number == "P5") {
+        // Para o formato P5 (PGM binário)
+        for (int i = 0; i < image->height; i++) {
+            for (int j = 0; j < image->width; j++) {
+                unsigned char gray;
+                file.read(reinterpret_cast<char*>(&gray), 1); // Lê 1 byte
+                image->pixel_matrix[i][j].R = gray;
+                image->pixel_matrix[i][j].G = gray;
+                image->pixel_matrix[i][j].B = gray;
+                image->pixel_matrix[i][j].x = i;
+                image->pixel_matrix[i][j].y = j;
+            }
+        }
     }
 
     file.close();
     return image;
 }
-// Função para calcular a distância Euclidiana entre dois pixels
 double euclidian_distance(Pixel p1, Pixel p2) {
     return sqrt(pow(p1.R - p2.R, 2) + pow(p1.G - p2.G, 2) + pow(p1.B - p2.B, 2) + pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
 }
@@ -197,7 +223,7 @@ std::vector<Pixel> generateSegmentedPixels(int numPixels, int segments) {
 }
 void saveSegmentedImage(const string& outputFilename, vector<vector<int>>& segments, Image& image) {
     // Gerar cores para a segmentação
-    vector<Pixel> colors = generateSegmentedPixels(1200,segments.size());
+    vector<Pixel> colors = generateSegmentedPixels(image.width*image.height,segments.size());
 
     // Pintar os pixels de acordo com a segmentação
     for (int index = 0; index < segments.size(); ++index) {
@@ -235,6 +261,53 @@ void saveSegmentedImage(const string& outputFilename, vector<vector<int>>& segme
     outFile.close();
     cout << "Imagem salva como: " << outputFilename << ".ppm" << endl;
 }
+
+// Salvar imagem segmentada em PGM
+void saveSegmentedImagePGM(const string& outputFilename, vector<vector<int>>& segments, Image& image) {
+    vector<int> grayscales(segments.size());
+    int grayStep = 255 / (segments.size() - 1); // Intervalo entre tons de cinza
+
+    // Gera tons de cinza únicos para cada segmento
+    for (int index = 0; index < segments.size(); ++index) {
+        grayscales[index] = index * grayStep;
+    }
+
+    // Aplica os tons de cinza nos pixels
+    for (int index = 0; index < segments.size(); ++index) {
+        for (int v : segments[index]) {
+            int i = v / image.width;
+            int j = v % image.width;
+
+            if (i >= 0 && i < image.height && j >= 0 && j < image.width) {
+                int grayValue = grayscales[index];
+                image.pixel_matrix[i][j].R = grayValue;
+                image.pixel_matrix[i][j].G = grayValue;
+                image.pixel_matrix[i][j].B = grayValue;
+            }
+        }
+    }
+
+    ofstream outFile(outputFilename + ".pgm", ios::binary);
+    if (!outFile.is_open()) {
+        cerr << "Erro ao abrir o arquivo: " << outputFilename + ".pgm" << endl;
+        return;
+    }
+
+    outFile << "P2\n";
+    outFile << image.width << " " << image.height << "\n";
+    outFile << "255\n";
+
+    for (int i = 0; i < image.height; ++i) {
+        for (int j = 0; j < image.width; ++j) {
+            int grayValue = image.pixel_matrix[i][j].R; // Usa apenas o canal R como tons de cinza
+            outFile << grayValue << " ";
+        }
+        outFile << "\n";
+    }
+
+    outFile.close();
+    cout << "Imagem salva como: " << outputFilename << ".pgm" << endl;
+}
 void print_segments(const std::vector<std::vector<int>>& segments) {
     std::cout << "Segmentos encontrados:" << std::endl;
     for (int i = 0; i < segments.size(); ++i) {
@@ -247,7 +320,7 @@ void print_segments(const std::vector<std::vector<int>>& segments) {
 }
 
 int main() {
-    string filename = "foto_teste.ppm"; // Nome do arquivo PPM
+    string filename = "baseball.ppm"; // Nome do arquivo PPM
 
     Image* image = read_file(filename);
     if (image == nullptr) {
@@ -261,13 +334,14 @@ int main() {
         cout << "Aresta entre " << edge.u<< " e " << edge.v<< " com peso " << edge.weight << endl;
     }
     UnionFind uf = UnionFind(g.size);
+    
     for(int i = 0; i<edges.size(); i++)
     {
         int u = edges[i].u;
         int v = edges[i].v;
         if(uf.find(u) != uf.find(v) && edges[i].weight< Mint(uf, u, v))
         {
-            uf.union_by_rank(u, v);
+            uf.union_by_rank(u, v, edges[i]);
         }
     }
 unordered_map<int, vector<int>> components;
@@ -285,6 +359,7 @@ unordered_map<int, vector<int>> components;
     print_segments(segments);
     // Salvar a imagem segmentada
     saveSegmentedImage("output_segmented", segments, *image);
+    saveSegmentedImagePGM("output_segmented_bw", segments, *image);
 
     delete image;
 
