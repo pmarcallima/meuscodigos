@@ -19,8 +19,7 @@ public:
     rank.resize(size, 0);
     component_size.resize(size, 1);
     for (int i = 0; i < size; i++) {
-      parent[i] = i;
-    }
+      parent[i] = i; }
   }
   int find(int x) {
     if (parent[x] != x) {
@@ -38,15 +37,15 @@ void union_by_rank(int x, int y, Edge current) {
         if (rank[rootX] > rank[rootY]) {
             parent[rootY] = rootX;
             component_size[rootX] += component_size[rootY];
-            Int[rootX] = max(max(Int[rootX], Int[rootY]), current.weight);
+            Int[rootX] = current.weight;
         } else if (rank[rootX] < rank[rootY]) {
             parent[rootX] = rootY;
             component_size[rootY] += component_size[rootX];
-            Int[rootY] = max(max(Int[rootY], Int[rootX]), current.weight);
+            Int[rootY] = current.weight;
         } else { // Mesmo rank: escolha arbitrária e incremente o rank
             parent[rootY] = rootX;
             component_size[rootX] += component_size[rootY];
-            Int[rootX] = max(max(Int[rootX], Int[rootY]), current.weight);
+            Int[rootX] = current.weight;
             rank[rootX]++;
         }
     } 

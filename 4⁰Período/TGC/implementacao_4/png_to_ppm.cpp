@@ -1,4 +1,3 @@
-
 #include "graph.cpp"
 #include "union_find.cpp"
 #include <cmath>
@@ -6,7 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#define K  2000
+#define K  5000
 
 using namespace std; struct Pixel {
     int x;
@@ -22,6 +21,16 @@ struct Image {
     int max_color;
     vector<vector<struct Pixel>> pixel_matrix;
 };
+double intensity(Pixel p) {
+    return (p.R + p.G + p.B) / 3.0;
+}
+
+// Função para calcular a "distância" entre dois pixels com base nas intensidades
+double intensity_distance(Pixel p1, Pixel p2) {
+    double intensity1 = intensity(p1);
+    double intensity2 = intensity(p2);
+    return fabs(intensity1 - intensity2);  // Diferença absoluta entre as intensidades
+}
 
 // Função para ler o arquivo PPM
 
@@ -122,6 +131,7 @@ Graph convert_image_to_graph(struct Image image) {
                         int neighbor_vertex = ni * image.width + nj;
                         Pixel neighbor_pixel = image.pixel_matrix[ni][nj];
                         double weight = euclidian_distance(current_pixel, neighbor_pixel);
+                        if(weight<120)
                         g.add_edge(current_vertex, neighbor_vertex, weight);
                     }
                 }
@@ -177,53 +187,31 @@ Pixel HSLToHex(int h, double s, double l) {
     return { R, G, B };
 }
 
-vector<Pixel> generateColors(int n) {
-    vector<Pixel> colors;
-double saturation = 0.8; // Saturação fixa
-	double lightness = 0.5; 
-    // Gerar cores com hue, saturação e luminosidade aleatórios
-    for (int i = 0; i < n; ++i) {
-       int hue = (int)((i * (360 / n)) % 360);
-
-        colors.push_back(HSLToHex(hue, saturation, lightness));
-
-        Pixel color = HSLToHex(hue, saturation, lightness);
-        cout << "Cor gerada: R=" << color.R << " G=" << color.G << " B=" << color.B << endl;
-    }
-
-    return colors;
-}
-std::vector<Pixel> generateSegmentedPixels(int numPixels, int segments) {
+std::vector<Pixel> generateSegmentedPixels(int numPixels) {
     std::vector<Pixel> pixels;
     pixels.reserve(numPixels);
 
-    // Calcula a largura de cada segmento
-    int segmentLength = 256 / segments;
+    // Semente para geração de números aleatórios
+    std::srand(time(nullptr));
 
     for (int i = 0; i < numPixels; ++i) {
         Pixel pixel;
 
-        // Determinar em qual segmento o pixel estará
-        int segment = i % segments;
-
-        // Gerar cores por segmento
-        pixel.R = segment * segmentLength;
-        pixel.G = (segment * segmentLength + 85) % 256;  // Adiciona um offset para o verde
-        pixel.B = (segment * segmentLength + 170) % 256; // Adiciona um offset para o azul
-
-        // Garantir que as cores não saiam do limite de 0 a 255
-        pixel.R = std::min(pixel.R, 255);
-        pixel.G = std::min(pixel.G, 255);
-        pixel.B = std::min(pixel.B, 255);
+        // Gerar valores aleatórios para R, G, B entre 0 e 255
+        pixel.R = std::rand() % 256;
+        pixel.G = std::rand() % 256;
+        pixel.B = std::rand() % 256;
 
         pixels.push_back(pixel);
     }
 
     return pixels;
 }
+
+
 void saveSegmentedImage(const string& outputFilename, vector<vector<int>>& segments, Image& image) {
     // Gerar cores para a segmentação
-    vector<Pixel> colors = generateSegmentedPixels(image.width*image.height,segments.size());
+    vector<Pixel> colors = generateSegmentedPixels(image.width*image.height);
 
     // Pintar os pixels de acordo com a segmentação
     for (int index = 0; index < segments.size(); ++index) {
@@ -318,9 +306,64 @@ void print_segments(const std::vector<std::vector<int>>& segments) {
         std::cout << std::endl;
     }
 }
+inline float pixel_value(Pixel& pixel, char channel) {
+    switch (channel) {
+        case 'R': return pixel.R;
+        case 'G': return pixel.G;
+        case 'B': return pixel.B;
+        default: return 0;
+    }
+}
+
+// Função para aplicar a máscara de convolução a um canal específico de um pixel
+void convolve_image(std::vector<std::vector<Pixel>>& pixel_matrix, std::vector<float>& mask, char channel) {
+    int height = pixel_matrix.size();
+    int width = pixel_matrix[0].size();
+    int len = mask.size();
+    
+    // Criação de uma matriz de pixels temporária para armazenar os resultados
+    std::vector<std::vector<Pixel>> result_matrix(height, std::vector<Pixel>(width));
+
+    // Aplicar a convolução para cada pixel
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            float sum = mask[0] * pixel_value(pixel_matrix[y][x], channel);
+            for (int i = 1; i < len; i++) {
+                // Verificar os pixels ao redor e aplicar a máscara
+                int prev_x = std::max(x - i, 0);
+                int next_x = std::min(x + i, width - 1);
+                sum += mask[i] * (pixel_value(pixel_matrix[y][prev_x], channel) + pixel_value(pixel_matrix[y][next_x], channel));
+            }
+
+            // Armazenar o resultado na matriz temporária
+            if (channel == 'R') result_matrix[y][x].R = std::round(sum);
+            if (channel == 'G') result_matrix[y][x].G = std::round(sum);
+            if (channel == 'B') result_matrix[y][x].B = std::round(sum);
+        }
+    }
+
+    // Copiar os resultados de volta para a matriz original
+    pixel_matrix = result_matrix;
+}
+void filterSmallSegments(vector<vector<int>>& segments, int imageWidth, int imageHeight) {
+    int minSegmentSize = (imageWidth * imageHeight) /200 ; // 1% da área total
+    segments.erase(
+        remove_if(segments.begin(), segments.end(),
+                  [minSegmentSize](const vector<int>& segment) {
+                      return segment.size() < minSegmentSize;
+                  }),
+        segments.end());
+}
+
+// Função para aplicar a máscara de convolução (para os três canais de cor)
+void convolve_all_channels(std::vector<std::vector<Pixel>>& pixel_matrix, std::vector<float>& mask) {
+    convolve_image(pixel_matrix, mask, 'R');
+    convolve_image(pixel_matrix, mask, 'G');
+    convolve_image(pixel_matrix, mask, 'B');
+}
 
 int main() {
-    string filename = "baseball.ppm"; // Nome do arquivo PPM
+    string filename = "baseball.pgm"; // Nome do arquivo PPM
 
     Image* image = read_file(filename);
     if (image == nullptr) {
@@ -356,7 +399,10 @@ unordered_map<int, vector<int>> components;
         segments.push_back(component.second);
     }
 
+    // Filtrar segmentos pequenos antes de salvar
+//    filterSmallSegments(segments, image->width, image->height);
     print_segments(segments);
+
     // Salvar a imagem segmentada
     saveSegmentedImage("output_segmented", segments, *image);
     saveSegmentedImagePGM("output_segmented_bw", segments, *image);
